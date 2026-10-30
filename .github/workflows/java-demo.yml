@@ -51,20 +51,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Paquet public
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -eu
-          for _ in 1 2 3 4 5 6; do
-            if gh api --method PATCH \
-              -H "Accept: application/vnd.github+json" \
-              "/users/${GITHUB_REPOSITORY_OWNER}/packages/container/java-demo" \
-              -f visibility=public; then
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "Le paquet reste privé pour l'instant." >&2
-          exit 1
