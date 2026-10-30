@@ -1,0 +1,22 @@
+# Ingress labo - hôte app.lab.local → nextjs-demo (ClusterIP).
+# Nouveau lab RKE2 1.35.8 : Traefik sélectionné avant le premier démarrage.
+# Traefik doit déjà être installé dans le cluster RKE2.
+# Ajouter dans /etc/hosts : <IP_NOEUD> app.lab.local
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lab-apps
+  namespace: suz-rancher-lab
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: app.lab.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextjs-demo
+                port:
+                  number: 80

@@ -1,0 +1,32 @@
+services:
+  nextjs-demo:
+    build:
+      context: ./apps/nextjs-demo
+    image: suz-rancher/nextjs-demo:1.0
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  java-demo:
+    build:
+      context: ./apps/java-demo
+    image: suz-rancher/java-demo:1.0
+    ports:
+      - "8085:8080"
+    restart: unless-stopped
+
+  node-api:
+    build:
+      context: ./apps/node-api
+    image: suz-rancher/node-api:1.0
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+
+  python-api:
+    build:
+      context: ./apps/python-api
+    image: suz-rancher/python-api:1.0
+    ports:
+      - "5000:5000"
+    restart: unless-stopped

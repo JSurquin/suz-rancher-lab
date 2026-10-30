@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-demo
+  namespace: suz-rancher-lab
+  labels:
+    app: java-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-demo
+  template:
+    metadata:
+      labels:
+        app: java-demo
+    spec:
+      containers:
+        - name: java-demo
+          image: suz-rancher/java-demo:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-demo
+  namespace: suz-rancher-lab
+spec:
+  selector:
+    app: java-demo
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP
