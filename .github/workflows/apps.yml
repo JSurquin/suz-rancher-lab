@@ -1,11 +1,11 @@
-name: java-demo
+name: apps
 
 on:
   push:
     branches: [main]
     paths:
-      - lab/apps/java-demo/**
-      - .github/workflows/java-demo.yml
+      - lab/apps/**
+      - .github/workflows/apps.yml
   workflow_dispatch:
 
 permissions:
@@ -14,8 +14,20 @@ permissions:
 
 jobs:
   publish:
-    name: Publier sur GHCR
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: java-demo
+            context: lab/apps/java-demo
+          - name: nextjs-demo
+            context: lab/apps/nextjs-demo
+          - name: node-api
+            context: lab/apps/node-api
+          - name: python-api
+            context: lab/apps/python-api
     steps:
       - name: Code
         uses: actions/checkout@v7
@@ -37,7 +49,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ghcr.io/${{ github.repository_owner }}/java-demo
+          images: ghcr.io/${{ github.repository_owner }}/${{ matrix.name }}
           tags: |
             type=raw,value=1.0
             type=raw,value=latest
@@ -46,7 +58,7 @@ jobs:
       - name: Image
         uses: docker/build-push-action@v7
         with:
-          context: lab/apps/java-demo
+          context: ${{ matrix.context }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
