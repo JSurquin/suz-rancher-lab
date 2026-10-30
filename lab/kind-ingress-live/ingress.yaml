@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mon-nginx
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: mon-nginx.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mon-nginx
+                port:
+                  number: 80

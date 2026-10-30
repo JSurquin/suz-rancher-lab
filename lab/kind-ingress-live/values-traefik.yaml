@@ -1,0 +1,10 @@
+service:
+  spec:
+    type: ClusterIP
+providers:
+  kubernetesGateway:
+    enabled: false
+gateway:
+  enabled: false
+gatewayClass:
+  enabled: false

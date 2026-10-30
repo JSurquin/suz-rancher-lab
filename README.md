@@ -4,6 +4,10 @@ Ce dépôt contient les fichiers nécessaires au projet du Jour 5 : quatre petit
 
 Il se clone sans compte GitHub et sans accès aux supports de formation. Les Dockerfiles et manifestes sont déjà fournis : le travail consiste à les lire, expliquer leurs choix, les adapter si nécessaire, puis vérifier chaque étape.
 
+## Atelier du Jour 3 : écrire un Ingress sur kind
+
+Le dossier [lab/kind-ingress-live/](lab/kind-ingress-live/README.md) fournit aussi le petit atelier de fin de partie 10 : écrire un Deployment nginx, son Service et son Ingress, installer Traefik dans kind avec Helm, puis tester `http://mon-nginx.test:8080` avec une entrée dans le fichier `hosts` du PC. Il est séparé du projet RKE2 ci-dessous.
+
 ## 1. Récupérer les fichiers
 
 Dans un terminal sur la VM du labo :
@@ -182,7 +186,8 @@ README.md
 lab/
 ├── apps/                 # Code source et Dockerfiles des quatre applications
 ├── docker-compose.yml    # Construction des images et essai local
-└── k8s/                  # Namespace, Deployments, Services, NodePorts et Ingress
+├── k8s/                  # Namespace, Deployments, Services, NodePorts et Ingress
+└── kind-ingress-live/    # Atelier séparé : nginx, Ingress et Traefik dans kind
 ```
 
 Les scripts d’installation du sandbox Ubuntu/k3s, les supports de formation et les configurations du formateur ne sont pas nécessaires pour utiliser ce dépôt.
