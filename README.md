@@ -23,7 +23,7 @@ Toutes les commandes ci-dessous partent de cette racine `suz-rancher-lab/`. Gard
 ## 2. Comprendre les quatre applications
 
 - `lab/apps/nextjs-demo/` : page Next.js, port du conteneur **3000**, port Compose **3000**, NodePort **30000**.
-- `lab/apps/java-demo/` : serveur HTTP Java 21, port du conteneur **8080**, port Compose **8085**, NodePort **30080**.
+- `lab/apps/java-demo/` : serveur HTTP Java 21. La racine sert un tableau de bord. `/api` et `/health` restent en JSON. Port du conteneur **8080**, port Compose **8085**, NodePort **30080**.
 - `lab/apps/node-api/` : API Node.js/Express, port **3001**, NodePort **30001**.
 - `lab/apps/python-api/` : API Python/Flask, port **5000**, NodePort **30500**.
 
@@ -40,9 +40,12 @@ docker compose -f lab/docker-compose.yml up -d --build
 docker compose -f lab/docker-compose.yml ps
 curl --fail http://localhost:3000
 curl --fail http://localhost:8085
+curl --fail http://localhost:8085/api
 curl --fail http://localhost:3001
 curl --fail http://localhost:5000
 ```
+
+Ouvrez aussi http://localhost:8085 dans le navigateur : c'est le tableau de bord Java. Le JSON d'identité est sur http://localhost:8085/api.
 
 Si une application ne répond pas, consultez ses logs :
 
@@ -131,14 +134,17 @@ Les fichiers `10-…` à `40-…` fournissent les Deployments et leurs Services 
 
 ## 7. Tester les applications
 
-Depuis une machine qui peut joindre le nœud, remplacez `IP_NOEUD` dans les quatre commandes suivantes :
+Depuis une machine qui peut joindre le nœud, remplacez `IP_NOEUD` dans les commandes suivantes :
 
 ```bash
 curl --fail http://IP_NOEUD:30000
 curl --fail http://IP_NOEUD:30080
+curl --fail http://IP_NOEUD:30080/api
 curl --fail http://IP_NOEUD:30001
 curl --fail http://IP_NOEUD:30500
 ```
+
+Le port **30080** ouvre le tableau de bord Java dans le navigateur. Le JSON reste sur `/api`.
 
 Pour l’Ingress, ajoutez une ligne `IP_NOEUD app.lab.local` au fichier `hosts` de **la machine du navigateur**. Ouvrez ensuite **`http://app.lab.local`**. Ce manifeste configure HTTP ; il ne crée ni DNS public ni certificat HTTPS.
 
